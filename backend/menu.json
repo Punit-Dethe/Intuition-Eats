@@ -1,0 +1,300 @@
+{
+    "categories": [
+        {
+            "id": "pizza",
+            "name": "Pizza",
+            "products": [
+                {
+                    "id": "pizza1",
+                    "name": "Margherita",
+                    "price": 12.99,
+                    "description": "Classic Italian pizza with fresh tomatoes, mozzarella, basil, and olive oil",
+                    "ingredients": ["Pizza Dough", "Tomato Sauce", "Fresh Mozzarella", "Fresh Basil", "Extra Virgin Olive Oil", "Salt"],
+                    "vegetarian": true,
+                    "spicy_level": "None",
+                    "nutritional_info": {
+                        "calories": 850,
+                        "protein": 34,
+                        "carbs": 98,
+                        "fat": 26,
+                        "serving_size": "12 inch pizza"
+                    },
+                    "image_url": "https://i.ibb.co/tTSDQ4fP/pepperoni-pizza-on-the-wooden-board-with-dark-lighting-and-black-background-food-and-delivery-concep.jpg"
+                },
+                {
+                    "id": "pizza2",
+                    "name": "Pepperoni Supreme",
+                    "price": 14.99,
+                    "description": "Loaded with pepperoni, bell peppers, mushrooms, and extra cheese",
+                    "ingredients": ["Pizza Dough", "Tomato Sauce", "Mozzarella", "Pepperoni", "Bell Peppers", "Mushrooms"],
+                    "vegetarian": false,
+                    "spicy_level": "Mild",
+                    "nutritional_info": {
+                        "calories": 980,
+                        "protein": 42,
+                        "carbs": 88,
+                        "fat": 38,
+                        "serving_size": "12 inch pizza"
+                    },
+                    "image_url": "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=800&auto=format&fit=crop&q=60"
+                },
+                {
+                    "id": "pizza3",
+                    "name": "BBQ Chicken",
+                    "price": 15.99,
+                    "description": "Grilled chicken, red onions, and BBQ sauce topped with cilantro",
+                    "ingredients": ["Pizza Dough", "BBQ Sauce", "Mozzarella", "Grilled Chicken", "Red Onions", "Cilantro"],
+                    "vegetarian": false,
+                    "spicy_level": "Mild",
+                    "nutritional_info": {
+                        "calories": 920,
+                        "protein": 48,
+                        "carbs": 94,
+                        "fat": 32,
+                        "serving_size": "12 inch pizza"
+                    },
+                    "image_url": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&auto=format&fit=crop&q=60"
+                },
+                {
+                    "id": "pizza4",
+                    "name": "Veggie Paradise",
+                    "price": 13.99,
+                    "description": "Loaded with fresh vegetables including spinach, olives, mushrooms, and bell peppers",
+                    "ingredients": ["Pizza Dough", "Tomato Sauce", "Mozzarella", "Spinach", "Black Olives", "Mushrooms", "Bell Peppers"],
+                    "vegetarian": true,
+                    "spicy_level": "None",
+                    "nutritional_info": {
+                        "calories": 780,
+                        "protein": 28,
+                        "carbs": 92,
+                        "fat": 24,
+                        "serving_size": "12 inch pizza"
+                    },
+                    "image_url": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&auto=format&fit=crop&q=60"
+                }
+            ]
+        },
+        {
+            "id": "burger",
+            "name": "Burger",
+            "products": [
+                {
+                    "id": "burger1",
+                    "name": "Classic Cheeseburger",
+                    "price": 9.99,
+                    "description": "Juicy beef patty with cheddar cheese, lettuce, tomato, and special sauce",
+                    "ingredients": ["Beef Patty", "Cheddar Cheese", "Lettuce", "Tomato", "Onion", "Special Sauce", "Sesame Bun"],
+                    "vegetarian": false,
+                    "spicy_level": "None",
+                    "nutritional_info": {
+                        "calories": 650,
+                        "protein": 32,
+                        "carbs": 42,
+                        "fat": 38,
+                        "serving_size": "1 burger (220g)"
+                    },
+                    "image_url": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&auto=format&fit=crop&q=60"
+                },
+                {
+                    "id": "burger2",
+                    "name": "Veggie Supreme Burger",
+                    "price": 10.99,
+                    "description": "Plant-based patty with avocado, sprouts, and vegan cheese",
+                    "ingredients": ["Plant-based Patty", "Vegan Cheese", "Avocado", "Sprouts", "Tomato", "Vegan Mayo", "Whole Wheat Bun"],
+                    "vegetarian": true,
+                    "spicy_level": "None",
+                    "nutritional_info": {
+                        "calories": 520,
+                        "protein": 22,
+                        "carbs": 48,
+                        "fat": 28,
+                        "serving_size": "1 burger (200g)"
+                    },
+                    "image_url": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&auto=format&fit=crop&q=60"
+                },
+                {
+                    "id": "burger3",
+                    "name": "Spicy Jalapeño Burger",
+                    "price": 11.99,
+                    "description": "Beef patty topped with jalapeños, pepper jack cheese, and chipotle mayo",
+                    "ingredients": ["Beef Patty", "Pepper Jack Cheese", "Jalapeños", "Lettuce", "Chipotle Mayo", "Brioche Bun"],
+                    "vegetarian": false,
+                    "spicy_level": "Hot",
+                    "nutritional_info": {
+                        "calories": 720,
+                        "protein": 34,
+                        "carbs": 44,
+                        "fat": 42,
+                        "serving_size": "1 burger (240g)"
+                    },
+                    "image_url": "https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=800&auto=format&fit=crop&q=60"
+                },
+                {
+                    "id": "burger4",
+                    "name": "Mushroom Swiss Burger",
+                    "price": 12.99,
+                    "description": "Beef patty topped with sautéed mushrooms and Swiss cheese",
+                    "ingredients": ["Beef Patty", "Swiss Cheese", "Sautéed Mushrooms", "Caramelized Onions", "Garlic Aioli", "Brioche Bun"],
+                    "vegetarian": false,
+                    "spicy_level": "None",
+                    "nutritional_info": {
+                        "calories": 680,
+                        "protein": 38,
+                        "carbs": 42,
+                        "fat": 40,
+                        "serving_size": "1 burger (230g)"
+                    },
+                    "image_url": "https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=800&auto=format&fit=crop&q=60"
+                }
+            ]
+        },
+        {
+            "id": "fries",
+            "name": "French Fries",
+            "products": [
+                {
+                    "id": "fries1",
+                    "name": "Classic French Fries",
+                    "price": 3.99,
+                    "description": "Crispy golden fries seasoned with salt",
+                    "ingredients": ["Potatoes", "Vegetable Oil", "Salt"],
+                    "vegetarian": true,
+                    "spicy_level": "None",
+                    "nutritional_info": {
+                        "calories": 320,
+                        "protein": 4,
+                        "carbs": 42,
+                        "fat": 16,
+                        "serving_size": "Regular portion (140g)"
+                    },
+                    "image_url": "https://images.unsplash.com/photo-1577715694662-6bcf16c06e29?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                },
+                {
+                    "id": "fries2",
+                    "name": "Garlic Parmesan Fries",
+                    "price": 4.99,
+                    "description": "Fries tossed in garlic butter and parmesan cheese",
+                    "ingredients": ["Potatoes", "Vegetable Oil", "Garlic", "Parmesan Cheese", "Parsley", "Salt"],
+                    "vegetarian": true,
+                    "spicy_level": "None",
+                    "nutritional_info": {
+                        "calories": 380,
+                        "protein": 6,
+                        "carbs": 42,
+                        "fat": 22,
+                        "serving_size": "Regular portion (140g)"
+                    },
+                    "image_url": "https://images.unsplash.com/photo-1576107232684-1279f390859f?w=800&auto=format&fit=crop&q=60"
+                },
+                {
+                    "id": "fries3",
+                    "name": "Cajun Spicy Fries",
+                    "price": 4.49,
+                    "description": "Crispy fries seasoned with spicy Cajun seasoning",
+                    "ingredients": ["Potatoes", "Vegetable Oil", "Cajun Seasoning", "Salt"],
+                    "vegetarian": true,
+                    "spicy_level": "Medium",
+                    "nutritional_info": {
+                        "calories": 340,
+                        "protein": 4,
+                        "carbs": 44,
+                        "fat": 16,
+                        "serving_size": "Regular portion (140g)"
+                    },
+                    "image_url": "https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                },
+                {
+                    "id": "fries4",
+                    "name": "Loaded Cheese Fries",
+                    "price": 6.99,
+                    "description": "Fries topped with melted cheese, bacon bits, and green onions",
+                    "ingredients": ["Potatoes", "Vegetable Oil", "Cheddar Cheese", "Bacon Bits", "Green Onions", "Sour Cream"],
+                    "vegetarian": false,
+                    "spicy_level": "None",
+                    "nutritional_info": {
+                        "calories": 520,
+                        "protein": 12,
+                        "carbs": 44,
+                        "fat": 34,
+                        "serving_size": "Regular portion (180g)"
+                    },
+                    "image_url": "https://images.unsplash.com/photo-1664337873087-ac64b3f1e454?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                }
+            ]
+        },
+        {
+            "id": "dessert",
+            "name": "Dessert",
+            "products": [
+                {
+                    "id": "dessert1",
+                    "name": "Chocolate Brownie Sundae",
+                    "price": 6.99,
+                    "description": "Warm chocolate brownie topped with vanilla ice cream and hot fudge",
+                    "ingredients": ["Chocolate Brownie", "Vanilla Ice Cream", "Hot Fudge Sauce", "Whipped Cream", "Cherry"],
+                    "vegetarian": true,
+                    "spicy_level": "None",
+                    "nutritional_info": {
+                        "calories": 580,
+                        "protein": 8,
+                        "carbs": 68,
+                        "fat": 32,
+                        "serving_size": "1 sundae (200g)"
+                    },
+                    "image_url": "https://images.unsplash.com/photo-1461009312844-e80697a81cc7?q=80&w=1988&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                },
+                {
+                    "id": "dessert2",
+                    "name": "New York Cheesecake",
+                    "price": 5.99,
+                    "description": "Classic New York style cheesecake with berry compote",
+                    "ingredients": ["Cream Cheese", "Graham Cracker Crust", "Sugar", "Eggs", "Berry Compote"],
+                    "vegetarian": true,
+                    "spicy_level": "None",
+                    "nutritional_info": {
+                        "calories": 460,
+                        "protein": 6,
+                        "carbs": 48,
+                        "fat": 28,
+                        "serving_size": "1 slice (120g)"
+                    },
+                    "image_url": "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800&auto=format&fit=crop&q=60"
+                },
+                {
+                    "id": "dessert3",
+                    "name": "Apple Cinnamon Pie",
+                    "price": 4.99,
+                    "description": "Warm apple pie with cinnamon and vanilla ice cream",
+                    "ingredients": ["Apples", "Cinnamon", "Sugar", "Butter", "Flour", "Vanilla Ice Cream"],
+                    "vegetarian": true,
+                    "spicy_level": "None",
+                    "nutritional_info": {
+                        "calories": 320,
+                        "protein": 3,
+                        "carbs": 42,
+                        "fat": 16,
+                        "serving_size": "1 slice (120g)"
+                    },
+                    "image_url": "https://images.unsplash.com/photo-1601000937859-3031d1be1caa?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                },
+                {
+                    "id": "dessert4",
+                    "name": "Tiramisu",
+                    "price": 6.49,
+                    "description": "Italian coffee-flavored dessert with layers of mascarpone cream",
+                    "ingredients": ["Ladyfingers", "Mascarpone Cheese", "Coffee", "Cocoa Powder", "Eggs", "Sugar"],
+                    "vegetarian": true,
+                    "spicy_level": "None",
+                    "nutritional_info": {
+                        "calories": 420,
+                        "protein": 7,
+                        "carbs": 42,
+                        "fat": 26,
+                        "serving_size": "1 portion (110g)"
+                    },
+                    "image_url": "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=800&auto=format&fit=crop&q=60"
+                }
+            ]
+        }
+    ]
+} 

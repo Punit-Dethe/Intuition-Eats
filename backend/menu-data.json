@@ -1,0 +1,280 @@
+{
+    "categories": [
+        {
+            "id": "pizza",
+            "name": "Pizza",
+            "products": [
+                {
+                    "id": "P001",
+                    "name": "Margherita Pizza",
+                    "price": 12.99,
+                    "description": "Classic Italian pizza with fresh tomatoes, mozzarella, basil, and olive oil",
+                    "ingredients": ["Pizza Dough", "Tomato Sauce", "Fresh Mozzarella", "Fresh Basil", "Extra Virgin Olive Oil", "Salt"],
+                    "nutritional_info": {
+                        "calories": 850,
+                        "protein": 34,
+                        "carbs": 98,
+                        "fat": 26,
+                        "serving_size": "12 inch pizza"
+                    },
+                    "spicy_level": "None",
+                    "vegetarian": true
+                },
+                {
+                    "id": "P002",
+                    "name": "Pepperoni Supreme",
+                    "price": 14.99,
+                    "description": "Loaded with pepperoni, bell peppers, mushrooms, and extra cheese",
+                    "ingredients": ["Pizza Dough", "Tomato Sauce", "Mozzarella", "Pepperoni", "Bell Peppers", "Mushrooms"],
+                    "nutritional_info": {
+                        "calories": 980,
+                        "protein": 42,
+                        "carbs": 88,
+                        "fat": 38,
+                        "serving_size": "12 inch pizza"
+                    },
+                    "spicy_level": "Mild",
+                    "vegetarian": false
+                },
+                {
+                    "id": "P003",
+                    "name": "BBQ Chicken Pizza",
+                    "price": 15.99,
+                    "description": "Grilled chicken, red onions, and BBQ sauce topped with cilantro",
+                    "ingredients": ["Pizza Dough", "BBQ Sauce", "Mozzarella", "Grilled Chicken", "Red Onions", "Cilantro"],
+                    "nutritional_info": {
+                        "calories": 920,
+                        "protein": 48,
+                        "carbs": 94,
+                        "fat": 32,
+                        "serving_size": "12 inch pizza"
+                    },
+                    "spicy_level": "Mild",
+                    "vegetarian": false
+                },
+                {
+                    "id": "P004",
+                    "name": "Veggie Paradise",
+                    "price": 13.99,
+                    "description": "Loaded with fresh vegetables including spinach, olives, mushrooms, and bell peppers",
+                    "ingredients": ["Pizza Dough", "Tomato Sauce", "Mozzarella", "Spinach", "Black Olives", "Mushrooms", "Bell Peppers"],
+                    "nutritional_info": {
+                        "calories": 780,
+                        "protein": 28,
+                        "carbs": 92,
+                        "fat": 24,
+                        "serving_size": "12 inch pizza"
+                    },
+                    "spicy_level": "None",
+                    "vegetarian": true
+                }
+            ]
+        },
+        {
+            "id": "burger",
+            "name": "Burger",
+            "products": [
+                {
+                    "id": "B001",
+                    "name": "Classic Cheeseburger",
+                    "price": 9.99,
+                    "description": "Juicy beef patty with cheddar cheese, lettuce, tomato, and special sauce",
+                    "ingredients": ["Beef Patty", "Cheddar Cheese", "Lettuce", "Tomato", "Onion", "Special Sauce", "Sesame Bun"],
+                    "nutritional_info": {
+                        "calories": 650,
+                        "protein": 32,
+                        "carbs": 42,
+                        "fat": 38,
+                        "serving_size": "1 burger (220g)"
+                    },
+                    "spicy_level": "None",
+                    "vegetarian": false
+                },
+                {
+                    "id": "B002",
+                    "name": "Spicy Jalapeño Burger",
+                    "price": 11.99,
+                    "description": "Beef patty topped with jalapeños, pepper jack cheese, and chipotle mayo",
+                    "ingredients": ["Beef Patty", "Pepper Jack Cheese", "Jalapeños", "Lettuce", "Chipotle Mayo", "Brioche Bun"],
+                    "nutritional_info": {
+                        "calories": 720,
+                        "protein": 34,
+                        "carbs": 44,
+                        "fat": 42,
+                        "serving_size": "1 burger (240g)"
+                    },
+                    "spicy_level": "Hot",
+                    "vegetarian": false
+                },
+                {
+                    "id": "B003",
+                    "name": "Veggie Supreme Burger",
+                    "price": 10.99,
+                    "description": "Plant-based patty with avocado, sprouts, and vegan cheese",
+                    "ingredients": ["Plant-based Patty", "Vegan Cheese", "Avocado", "Sprouts", "Tomato", "Vegan Mayo", "Whole Wheat Bun"],
+                    "nutritional_info": {
+                        "calories": 520,
+                        "protein": 22,
+                        "carbs": 48,
+                        "fat": 28,
+                        "serving_size": "1 burger (200g)"
+                    },
+                    "spicy_level": "None",
+                    "vegetarian": true
+                },
+                {
+                    "id": "B004",
+                    "name": "Mushroom Swiss Burger",
+                    "price": 12.99,
+                    "description": "Beef patty topped with sautéed mushrooms and Swiss cheese",
+                    "ingredients": ["Beef Patty", "Swiss Cheese", "Sautéed Mushrooms", "Caramelized Onions", "Garlic Aioli", "Brioche Bun"],
+                    "nutritional_info": {
+                        "calories": 680,
+                        "protein": 38,
+                        "carbs": 42,
+                        "fat": 40,
+                        "serving_size": "1 burger (230g)"
+                    },
+                    "spicy_level": "None",
+                    "vegetarian": false
+                }
+            ]
+        },
+        {
+            "id": "fries",
+            "name": "French Fries",
+            "products": [
+                {
+                    "id": "F001",
+                    "name": "Classic French Fries",
+                    "price": 3.99,
+                    "description": "Crispy golden fries seasoned with salt",
+                    "ingredients": ["Potatoes", "Vegetable Oil", "Salt"],
+                    "nutritional_info": {
+                        "calories": 320,
+                        "protein": 4,
+                        "carbs": 42,
+                        "fat": 16,
+                        "serving_size": "Regular portion (140g)"
+                    },
+                    "spicy_level": "None",
+                    "vegetarian": true
+                },
+                {
+                    "id": "F002",
+                    "name": "Garlic Parmesan Fries",
+                    "price": 4.99,
+                    "description": "Fries tossed in garlic butter and parmesan cheese",
+                    "ingredients": ["Potatoes", "Vegetable Oil", "Garlic", "Parmesan Cheese", "Parsley", "Salt"],
+                    "nutritional_info": {
+                        "calories": 380,
+                        "protein": 6,
+                        "carbs": 42,
+                        "fat": 22,
+                        "serving_size": "Regular portion (140g)"
+                    },
+                    "spicy_level": "None",
+                    "vegetarian": true
+                },
+                {
+                    "id": "F003",
+                    "name": "Cajun Spicy Fries",
+                    "price": 4.49,
+                    "description": "Crispy fries seasoned with spicy Cajun seasoning",
+                    "ingredients": ["Potatoes", "Vegetable Oil", "Cajun Seasoning", "Salt"],
+                    "nutritional_info": {
+                        "calories": 340,
+                        "protein": 4,
+                        "carbs": 44,
+                        "fat": 16,
+                        "serving_size": "Regular portion (140g)"
+                    },
+                    "spicy_level": "Medium",
+                    "vegetarian": true
+                },
+                {
+                    "id": "F004",
+                    "name": "Loaded Cheese Fries",
+                    "price": 6.99,
+                    "description": "Fries topped with melted cheese, bacon bits, and green onions",
+                    "ingredients": ["Potatoes", "Vegetable Oil", "Cheddar Cheese", "Bacon Bits", "Green Onions", "Sour Cream"],
+                    "nutritional_info": {
+                        "calories": 520,
+                        "protein": 12,
+                        "carbs": 44,
+                        "fat": 34,
+                        "serving_size": "Regular portion (180g)"
+                    },
+                    "spicy_level": "None",
+                    "vegetarian": false
+                }
+            ]
+        },
+        {
+            "id": "dessert",
+            "name": "Dessert",
+            "products": [
+                {
+                    "id": "D001",
+                    "name": "Chocolate Brownie Sundae",
+                    "price": 6.99,
+                    "description": "Warm chocolate brownie topped with vanilla ice cream and hot fudge",
+                    "ingredients": ["Chocolate Brownie", "Vanilla Ice Cream", "Hot Fudge Sauce", "Whipped Cream", "Cherry"],
+                    "nutritional_info": {
+                        "calories": 580,
+                        "protein": 8,
+                        "carbs": 68,
+                        "fat": 32,
+                        "serving_size": "1 sundae (200g)"
+                    },
+                    "vegetarian": true
+                },
+                {
+                    "id": "D002",
+                    "name": "New York Cheesecake",
+                    "price": 5.99,
+                    "description": "Classic New York style cheesecake with berry compote",
+                    "ingredients": ["Cream Cheese", "Graham Cracker Crust", "Sugar", "Eggs", "Berry Compote"],
+                    "nutritional_info": {
+                        "calories": 460,
+                        "protein": 6,
+                        "carbs": 48,
+                        "fat": 28,
+                        "serving_size": "1 slice (120g)"
+                    },
+                    "vegetarian": true
+                },
+                {
+                    "id": "D003",
+                    "name": "Apple Cinnamon Pie",
+                    "price": 4.99,
+                    "description": "Warm apple pie with cinnamon streusel topping",
+                    "ingredients": ["Apples", "Pie Crust", "Cinnamon", "Sugar", "Streusel Topping"],
+                    "nutritional_info": {
+                        "calories": 380,
+                        "protein": 4,
+                        "carbs": 58,
+                        "fat": 18,
+                        "serving_size": "1 slice (130g)"
+                    },
+                    "vegetarian": true
+                },
+                {
+                    "id": "D004",
+                    "name": "Tiramisu",
+                    "price": 6.49,
+                    "description": "Italian coffee-flavored dessert with layers of mascarpone cream",
+                    "ingredients": ["Ladyfingers", "Mascarpone Cheese", "Coffee", "Cocoa Powder", "Eggs", "Sugar"],
+                    "nutritional_info": {
+                        "calories": 420,
+                        "protein": 7,
+                        "carbs": 42,
+                        "fat": 26,
+                        "serving_size": "1 portion (110g)"
+                    },
+                    "vegetarian": true
+                }
+            ]
+        }
+    ]
+} 

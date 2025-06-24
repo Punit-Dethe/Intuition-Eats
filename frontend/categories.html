@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizza Categories - AI Menu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="gemini-chat/gemini-chat.js"></script>
+    <script src="config.js"></script>
+    <style>
+        :root {
+            --primary: #4285f4;
+            --secondary: #34a853;
+            --accent: #D4B08C;  /* Warm beige */
+            --yellow: #fbbc05;
+            --dark: #1a1a1a;
+            --light: #ffffff;
+            --gray: #202124;
+            --header-height: clamp(60px, 8vh, 80px);
+            --title-size: clamp(2rem, 5vw, 3.5rem);
+            --subtitle-size: clamp(1rem, 2vw, 1.5rem);
+            --button-size: clamp(1rem, 2vw, 1.2rem);
+            --menu-item-size: clamp(80px, 15vw, 120px);
+            --menu-gap: clamp(10px, 2vw, 20px);
+            --chat-button-size: clamp(1rem, 2vw, 1.2rem);
+            --chat-icon-size: clamp(1.5rem, 3vw, 2rem);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: #2C1810;
+            color: #DEB887;
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            background: rgba(44, 24, 16, 0.95);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            padding: 0 clamp(10px, 2vw, 20px);
+        }
+
+        .menu-title {
+            font-size: var(--title-size);
+            margin: 0;
+            text-align: center;
+            color: #DEB887;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .chat-button {
+            position: fixed;
+            top: clamp(10px, 2vh, 20px);
+            left: clamp(5px, 1vw, 10px);
+            padding: clamp(8px, 1.5vh, 12px) clamp(12px, 2vw, 20px);
+            background: rgba(212, 176, 140, 0.2);
+            border: 1px solid rgba(212, 176, 140, 0.3);
+            border-radius: 20px;
+            color: #DEB887;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: var(--chat-button-size);
+            transition: all 0.3s ease;
+            z-index: 100;
+            backdrop-filter: blur(8px);
+        }
+
+        .chat-icon {
+            font-size: var(--chat-icon-size);
+        }
+
+        .menu-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(clamp(200px, 30vw, 300px), 1fr));
+            gap: var(--menu-gap);
+            padding: calc(var(--header-height) + clamp(20px, 4vh, 40px)) clamp(20px, 4vw, 40px) clamp(20px, 4vh, 40px);
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .menu-item {
+            background: rgba(212, 176, 140, 0.1);
+            border-radius: 15px;
+            padding: clamp(15px, 3vh, 25px);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(212, 176, 140, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: clamp(10px, 2vh, 15px);
+        }
+
+        .menu-item img {
+            width: var(--menu-item-size);
+            height: var(--menu-item-size);
+            object-fit: cover;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .menu-item h3 {
+            font-size: var(--subtitle-size);
+            margin: 0;
+            color: #DEB887;
+        }
+
+        .menu-item p {
+            font-size: var(--button-size);
+            margin: 0;
+            color: #DEB887;
+            opacity: 0.8;
+        }
+
+        .order-button {
+            background: #DEB887;
+            color: #2C1810;
+            border: none;
+            padding: clamp(8px, 1.5vh, 12px) clamp(16px, 3vw, 24px);
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: var(--button-size);
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-top: auto;
+        }
+
+        /* Update the right-hand side circular menu positioning */
+        .product-selector {
+            position: fixed;
+            right: clamp(10px, 2vw, 20px);
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: clamp(10px, 2vh, 15px);
+            z-index: 100;
+            padding: clamp(10px, 2vh, 20px);
+            background: rgba(44, 24, 16, 0.8);
+            backdrop-filter: blur(8px);
+            border-radius: 30px;
+            border: 1px solid rgba(212, 176, 140, 0.2);
+            margin-top: clamp(10px, 2vh, 20px);
+            margin-bottom: clamp(10px, 2vh, 20px);
+            bottom: 10px;
+            top: auto;
+            transform: none;
+        }
+
+        .thumbnail-wrapper {
+            width: clamp(40px, 8vw, 60px);
+            height: clamp(40px, 8vw, 60px);
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .thumbnail-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid rgba(212, 176, 140, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        /* Update Gemini response container for responsiveness */
+        .gemini-response-container {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 35%;
+            max-width: 500px;
+            height: 28px;  /* Decreased from 35px to 28px */
+            background: transparent;
+            border-radius: 18px;
+            overflow: visible;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            isolation: isolate;
+        }
+
+        .gemini-response-text {
+            white-space: nowrap;
+            position: absolute;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            color: #2C1810;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 0 20px;
+            animation: scrollText var(--scroll-duration, 30s) linear;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.2);
+            opacity: 1;
+            transform: translateX(15%);
+            line-height: 1;  /* Added to ensure text is vertically centered */
+        }
+
+        /* Update TTS notification for responsiveness */
+        .tts-notification {
+            position: fixed;
+            bottom: clamp(20px, 4vh, 40px);
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(212, 176, 140, 0.2);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(212, 176, 140, 0.3);
+            border-radius: 15px;
+            padding: clamp(8px, 1.5vh, 12px) clamp(16px, 3vw, 24px);
+            font-size: var(--subtitle-size);
+            color: #ffffff;
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .dynamic-island {
+            position: fixed;
+            top: clamp(28px, 3.8vh, 38px);
+            left: 53%;
+            transform: translateX(-50%);
+            background: rgba(44, 24, 16, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: clamp(8px, 1.5vh, 12px) clamp(12px, 2vw, 20px);
+            display: flex;
+            gap: 20px;
+            z-index: 1000;
+            border: 1px solid rgba(212, 176, 140, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            height: calc(clamp(8px, 1.5vh, 12px) * 2 + 24px);
+            align-items: center;
+        }
+
+        .dynamic-island:hover {
+            padding: clamp(8px, 1.5vh, 12px) clamp(12px, 2vw, 20px);
+            gap: 25px;
+            background: rgba(44, 24, 16, 0.95);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3),
+                       0 0 25px rgba(212, 176, 140, 0.2),
+                       0 0 50px rgba(212, 176, 140, 0.15);
+            transform: translateX(-50%) scale(1.02);
+        }
+
+        .category-item {
+            color: var(--accent);
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .category-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .category-item:hover {
+            color: #E5C9B3;
+        }
+
+        .category-item:hover::after {
+            width: 100%;
+        }
+
+        .category-item.active {
+            color: #E5C9B3;
+        }
+
+        .category-item.active::after {
+            width: 100%;
+        }
+
+        .background-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            object-fit: cover;
+            z-index: 0;
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.5s ease, transform 0.6s ease;
+        }
+
+        .background-image.switching {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(
+                to top,
+                rgba(0,0,0,0.7) 0%,
+                rgba(0,0,0,0.5) 25%,
+                rgba(0,0,0,0.3) 45%,
+                rgba(0,0,0,0.2) 65%,
+                rgba(0,0,0,0.1) 80%,
+                rgba(0,0,0,0) 100%
+            );
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: flex-end;
+            padding-bottom: 8vh;
+        }
+
+        .container {
+            width: 100%;
+            padding: 0 5vw;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 10px;
+        }
+
+        .product-info {
+            max-width: 600px;
+            margin-left: 3vw;
+            transform: translateY(0);
+            opacity: 1;
+            transition: opacity 0.5s ease, transform 0.6s ease;
+            width: 45vw;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 10px;
+        }
+
+        .product-name {
+            font-size: clamp(2.5rem, 4vw, 4.5rem);  /* Responsive font size */
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--accent);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            opacity: 1;
+            transition: opacity 0.5s ease, transform 0.6s ease;
+            transform: translateY(0);
+            font-family: 'Outfit', serif;
+            letter-spacing: -0.5px;
+            white-space: nowrap;  /* Prevent line breaks */
+            overflow: hidden;  /* Hide overflow */
+            text-overflow: ellipsis;  /* Show ... if text overflows */
+        }
+
+        .product-description {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #E5DDD5;  /* Warmer off-white for better readability */
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            opacity: 1;
+            transition: opacity 0.5s ease, transform 0.6s ease;
+            transform: translateY(0);
+            font-weight: 400;
+        }
+
+        .product-info.switching {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+
+        .get-started {
+            background: var(--accent);
+            color: #2C1810;  /* Dark brown text for contrast */
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: inline-block;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(212, 176, 140, 0.2);
+        }
+
+        .get-started:hover {
+            background: #E5C9B3;  /* Lighter beige on hover */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 176, 140, 0.3);
+        }
+
+        .thumbnail-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+            margin-right: 3vw;
+            margin-bottom: 10px;
+        }
+
+        .thumbnail {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            object-fit: cover;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            display: block;  /* Added to fix positioning */
+        }
+
+        /* Container for the thumbnail and its effects */
+        .thumbnail-wrapper {
+            width: 120px;
+            height: 120px;
+            position: relative;
+            cursor: pointer;
+            margin: 8px 0;  /* Reduced from 15px to 8px */
+        }
+
+        /* Edge light effect */
+        .thumbnail-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: -2px;  /* Reduced from -4px to -2px for smaller glow */
+            border-radius: 50%;
+            background: linear-gradient(
+                135deg,
+                #FFE4C4,  /* Light beige */
+                #DEB887,  /* Burly wood */
+                #FFE4B5,  /* Moccasin */
+                #F5DEB3,  /* Wheat */
+                #D4B08C,  /* Tan */
+                #BC8F8F,  /* Rosy brown */
+                #A0522D,  /* Saddle brown */
+                #8B4513,  /* Dark brown */
+                #654321,  /* Darker brown */
+                #FFE4C4   /* Back to light beige */
+            );
+            background-size: 400% 400%;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            filter: blur(6px);  /* Reduced from 8px to 6px for sharper edges */
+        }
+
+        .thumbnail-wrapper.active::before {
+            opacity: 1;
+            animation: smoothGradient 8s ease infinite;  /* Slower animation for smoother transitions */
+        }
+
+        .thumbnail-wrapper:hover::before {
+            opacity: 0.8;  /* Increased hover opacity */
+        }
+
+        .thumbnail-wrapper.active {
+            transform: scale(1.05);
+        }
+
+        @keyframes smoothGradient {
+            0% {
+                background-position: 0% 0%;
+            }
+            20% {
+                background-position: 100% 0%;
+            }
+            40% {
+                background-position: 100% 100%;
+            }
+            60% {
+                background-position: 0% 100%;
+            }
+            80% {
+                background-position: 0% 0%;
+            }
+            100% {
+                background-position: 0% 0%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                padding: 20px;
+                justify-content: center;
+            }
+
+            .product-info {
+                margin: 0 0 40px 0;
+                text-align: center;
+                transform: translateY(0);
+                width: 100%;  /* Full width on mobile */
+            }
+
+            .product-name {
+                font-size: clamp(2rem, 8vw, 3rem);  /* Adjusted mobile font size */
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .thumbnail-container {
+                flex-direction: row;
+                margin: 0;
+                gap: 15px;
+                transform: translateY(0);
+            }
+
+            .thumbnail {
+                width: 80px;
+                height: 80px;
+            }
+
+            .overlay {
+                background: linear-gradient(
+                    to top,
+                    rgba(0,0,0,0.95) 0%,
+                    rgba(0,0,0,0.8) 30%,
+                    rgba(0,0,0,0.6) 60%,
+                    rgba(0,0,0,0.4) 80%,
+                    rgba(0,0,0,0) 100%
+                );
+            }
+        }
+
+        /* Target the Gemini chat button */
+        #gemini-chat-button,
+        .gemini-chat-button,
+        [data-gemini-chat-button],
+        .chef-chat,
+        button[class*="chef-chat"] {
+            background: var(--accent) !important; /* Back to original beige color */
+            position: relative !important;
+            overflow: visible !important;
+            isolation: isolate !important;
+            z-index: 1000 !important;
+        }
+
+        /* Rest of the styles will apply once we confirm the correct selector */
+        #gemini-chat-button::before,
+        .gemini-chat-button::before,
+        [data-gemini-chat-button]::before,
+        .chef-chat::before,
+        button[class*="chef-chat"]::before {
+            content: '';
+            position: absolute;
+            inset: -12px;  /* Reduced from -25px to -12px */
+            background: linear-gradient(
+                45deg,
+                #8B4513,
+                #654321,
+                #D4B08C,
+                #A0522D,
+                #8B6B4E,
+                #DEB887,
+                #BC8F8F,
+                #8B4513
+            );
+            background-size: 200%;
+            border-radius: 30px;  /* Reduced from 40px to 30px */
+            z-index: -2;
+            animation: haloAnimate 12s linear infinite;
+            filter: blur(12px);  /* Reduced from 25px to 12px */
+            opacity: 0.95;
+            pointer-events: none;
+            transform: translate3d(0, 0, 0);
+            will-change: transform, background-position;
+        }
+
+        #gemini-chat-button::after,
+        .gemini-chat-button::after,
+        [data-gemini-chat-button]::after,
+        .chef-chat::after,
+        button[class*="chef-chat"]::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: inherit;
+            border-radius: 25px;  /* Reduced from 30px to 25px */
+            z-index: -1;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        #gemini-chat-button:hover,
+        .gemini-chat-button:hover,
+        [data-gemini-chat-button]:hover,
+        .chef-chat:hover,
+        button[class*="chef-chat"]:hover {
+            transform: scale(1.05) !important;
+            box-shadow: 0 6px 20px rgba(212, 176, 140, 0.3) !important;
+        }
+
+        #gemini-chat-button:hover::before,
+        .gemini-chat-button:hover::before,
+        [data-gemini-chat-button]:hover::before,
+        .chef-chat:hover::before,
+        button[class*="chef-chat"]:hover::before {
+            animation: haloAnimate 8s linear infinite;
+            filter: blur(15px);  /* Reduced from 35px to 15px */
+            opacity: 1;
+            background: linear-gradient(
+                45deg,
+                #D4B08C,
+                #DEB887,
+                #E5C9B3,
+                #A0522D,
+                #D2B48C,
+                #F5DEB3,
+                #E8CEBA,
+                #D4B08C
+            );
+        }
+
+        @keyframes haloAnimate {
+            0% { 
+                background-position: 0% 0%;
+            }
+            50% { 
+                background-position: 100% 100%;
+            }
+            100% { 
+                background-position: 0% 0%;
+            }
+        }
+
+        /* Update the marquee text container styles */
+        .gemini-response-container {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 35%;
+            max-width: 500px;
+            height: 28px;  /* Decreased from 35px to 28px */
+            background: transparent;
+            border-radius: 18px;
+            overflow: visible;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            isolation: isolate;
+        }
+
+        .gemini-response-container.visible {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .gemini-response-container.hiding {
+            opacity: 0;
+            transform: translateX(-50%) translateY(20px);
+        }
+
+        /* Main halo effect that serves as background and glow */
+        .gemini-response-container::before {
+            content: '';
+            position: absolute;
+            inset: -20px;
+            background: linear-gradient(
+                45deg,
+                #8B4513,
+                #654321,
+                #D4B08C,
+                #A0522D,
+                #8B6B4E,
+                #DEB887,
+                #BC8F8F,
+                #8B4513
+            );
+            background-size: 200%;
+            border-radius: 25px;
+            z-index: -2;
+            animation: haloAnimate 12s linear infinite;
+            filter: blur(15px);
+            opacity: 0.8;
+            pointer-events: none;
+            transform: translate3d(0, 0, 0);
+            will-change: transform, background-position;
+        }
+
+        /* Inner glow for text background */
+        .gemini-response-container::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(212, 176, 140, 0.2);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 18px;
+            z-index: -1;
+            border: 1px solid rgba(212, 176, 140, 0.3);
+            box-shadow: 
+                0 4px 20px rgba(0, 0, 0, 0.15),
+                inset 0 0 20px rgba(212, 176, 140, 0.2);
+        }
+
+        .gemini-response-text-container {
+            position: absolute;
+            inset: 0;
+            border-radius: 18px;
+            overflow: hidden;
+            mask-image: linear-gradient(
+                to right,
+                transparent 0%,
+                rgba(0, 0, 0, 0.2) 10%,
+                rgba(0, 0, 0, 0.4) 15%,
+                rgba(0, 0, 0, 0.6) 20%,
+                rgba(0, 0, 0, 0.8) 25%,
+                black 30%,
+                black 70%,
+                rgba(0, 0, 0, 0.8) 75%,
+                rgba(0, 0, 0, 0.6) 80%,
+                rgba(0, 0, 0, 0.4) 85%,
+                rgba(0, 0, 0, 0.2) 90%,
+                transparent 100%
+            );
+            -webkit-mask-image: linear-gradient(
+                to right,
+                transparent 0%,
+                rgba(0, 0, 0, 0.2) 10%,
+                rgba(0, 0, 0, 0.4) 15%,
+                rgba(0, 0, 0, 0.6) 20%,
+                rgba(0, 0, 0, 0.8) 25%,
+                black 30%,
+                black 70%,
+                rgba(0, 0, 0, 0.8) 75%,
+                rgba(0, 0, 0, 0.6) 80%,
+                rgba(0, 0, 0, 0.4) 85%,
+                rgba(0, 0, 0, 0.2) 90%,
+                transparent 100%
+            );
+        }
+
+        .gemini-response-text {
+            white-space: nowrap;
+            position: absolute;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            color: #2C1810;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 0 20px;
+            animation: scrollText var(--scroll-duration, 30s) linear;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.2);
+            opacity: 1;
+            transform: translateX(15%);
+            line-height: 1;  /* Added to ensure text is vertically centered */
+        }
+
+        @keyframes scrollText {
+            0% {
+                transform: translateX(15%);  /* Start 15% from left edge */
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        /* Hover effect for the container */
+        .gemini-response-container.visible:hover::before {
+            filter: blur(20px);
+            opacity: 0.9;
+            background: linear-gradient(
+                45deg,
+                #D4B08C,
+                #DEB887,
+                #E5C9B3,
+                #A0522D,
+                #D2B48C,
+                #F5DEB3,
+                #E8CEBA,
+                #D4B08C
+            );
+        }
+
+        .category-link {
+            text-decoration: none;
+            color: rgba(212, 176, 140, 0.5);
+            font-size: var(--chat-button-size);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 4px 8px;
+            display: inline-flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        .category-link:hover {
+            color: rgba(229, 201, 179, 0.85);
+        }
+
+        .category-link.active {
+            font-weight: 700;
+        }
+
+        /* Gradient text effect for active category */
+        .category-link.active span {
+            background: linear-gradient(
+                90deg,
+                #D4B08C,
+                #E5C9B3,
+                #DEB887,
+                #8B4513,
+                #654321,
+                #D4B08C
+            );
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 8s linear infinite;  /* Changed from 5s ease-in-out to 8s linear */
+            display: inline-block;
+            transform: scale(1.1);
+            transform-origin: center;
+        }
+
+        @keyframes shine {
+            from {
+                background-position: 0% center;
+            }
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        /* Remove all the gradient and glow effects */
+        .category-link.active span::before {
+            display: none;
+        }
+
+        /* Remove the old TTS toggle styles */
+        .tts-toggle {
+            display: none;
+        }
+
+        /* Add new popup notification styles */
+        .tts-notification {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(212, 176, 140, 0.2);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(212, 176, 140, 0.3);
+            border-radius: 15px;
+            padding: 8px 16px;
+            font-size: 14px;
+            color: #ffffff;
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .tts-notification.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .tts-notification.hide {
+            opacity: 0;
+            transform: translateX(-50%) translateY(100px);
+        }
+    </style>
+</head>
+<body>
+    <div class="dynamic-island">
+        <a href="#" class="category-link active"><span>Pizza</span></a>
+        <a href="#" class="category-link"><span>Burger</span></a>
+        <a href="#" class="category-link"><span>Fries</span></a>
+        <a href="#" class="category-link"><span>Dessert</span></a>
+    </div>
+
+    <img src="images/pepperoni-pizza-on-the-wooden-board-with-dark-lighting-and-black-background-food-and-delivery-concept-generative-ai-free-photo (1).jpg" 
+         alt="Background" 
+         class="background-image" 
+         id="mainImage">
+    <div class="overlay"></div>
+
+    <div class="content">
+        <div class="container">
+            <div class="product-info">
+                <h1 class="product-name">Margherita Pizza</h1>
+                <p class="product-description">Classic Italian pizza with fresh tomatoes, mozzarella, basil, and olive oil</p>
+                <a href="product.html?id=pizza1" class="get-started">ORDER NOW</a>
+            </div>
+
+            <div class="thumbnail-container">
+                <div class="thumbnail-wrapper">
+                    <img src="images/pepperoni-pizza-on-the-wooden-board-with-dark-lighting-and-black-background-food-and-delivery-concept-generative-ai-free-photo (1).jpg" 
+                         alt="Margherita" 
+                         class="thumbnail" 
+                         data-name="Margherita Pizza" 
+                         data-description="Classic Italian pizza with fresh tomatoes, mozzarella, basil, and olive oil" 
+                         data-image="images/pepperoni-pizza-on-the-wooden-board-with-dark-lighting-and-black-background-food-and-delivery-concept-generative-ai-free-photo (1).jpg"
+                         data-product-id="P001"
+                         onerror="this.src='images/pepperoni-pizza-on-the-wooden-board-with-dark-lighting-and-black-background-food-and-delivery-concept-generative-ai-free-photo (1).jpg'">
+                </div>
+                
+                <div class="thumbnail-wrapper">
+                    <img src="https://images.unsplash.com/photo-1628840042765-356cda07504e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=150&q=80" 
+                         alt="Pepperoni" 
+                         class="thumbnail" 
+                         data-name="Pepperoni Supreme" 
+                         data-description="Loaded with pepperoni, bell peppers, mushrooms, and extra cheese" 
+                         data-image="https://images.unsplash.com/photo-1628840042765-356cda07504e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80"
+                         data-product-id="pizza2"
+                         onerror="this.src='https://images.unsplash.com/photo-1628840042765-356cda07504e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=150&q=80'">
+                </div>
+                
+                <div class="thumbnail-wrapper">
+                    <img src="https://images.unsplash.com/photo-1511689660979-10d2b1aada49?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=150&q=80" 
+                         alt="Veggie" 
+                         class="thumbnail" 
+                         data-name="Veggie Paradise" 
+                         data-description="Loaded with fresh vegetables including spinach, olives, mushrooms, and bell peppers" 
+                         data-image="https://images.unsplash.com/photo-1511689660979-10d2b1aada49?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80"
+                         data-product-id="pizza3"
+                         onerror="this.src='https://images.unsplash.com/photo-1511689660979-10d2b1aada49?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=150&q=80'">
+                </div>
+                
+                <div class="thumbnail-wrapper">
+                    <img src="https://images.unsplash.com/photo-1594007654729-407eedc4be65?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=150&q=80" 
+                         alt="BBQ Chicken" 
+                         class="thumbnail" 
+                         data-name="BBQ Chicken" 
+                         data-description="Grilled chicken, red onions, and BBQ sauce topped with cilantro" 
+                         data-image="https://images.unsplash.com/photo-1594007654729-407eedc4be65?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80"
+                         data-product-id="pizza4"
+                         onerror="this.src='https://images.unsplash.com/photo-1594007654729-407eedc4be65?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=150&q=80'">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="gemini-response-container">
+        <div class="gemini-response-text-container">
+            <div class="gemini-response-text"></div>
+        </div>
+    </div>
+
+    <!-- Add the notification element -->
+    <div class="tts-notification" id="ttsNotification"></div>
+
+    <script>
+        let menuData = null;
+        let currentCategory = 'pizza';
+        const thumbnails = document.querySelectorAll('.thumbnail');
+        const mainImage = document.getElementById('mainImage');
+        const productInfo = document.querySelector('.product-info');
+        const categoryItems = document.querySelectorAll('.category-item');
+        const thumbnailContainer = document.querySelector('.thumbnail-container');
+
+        // Load menu data
+        async function loadMenuData() {
+            try {
+                const apiUrl = window.APP_CONFIG.API_URL;
+                console.log('Fetching menu data from:', apiUrl + '/api/menu');
+                const response = await fetch(apiUrl + '/api/menu');
+                if (!response.ok) {
+                    throw new Error(`Server responded with status: ${response.status}`);
+                }
+                menuData = await response.json();
+                console.log('Menu data loaded successfully');
+                return menuData;
+            } catch (error) {
+                console.error('Error loading menu data:', error);
+                // Fallback to localhost if API call fails (for development)
+                try {
+                    const response = await fetch('http://localhost:3000/api/menu');
+                    if (response.ok) {
+                        menuData = await response.json();
+                        console.log('Fell back to localhost and loaded menu data');
+                        return menuData;
+                    }
+                } catch (e) {
+                    console.error('Fallback also failed:', e);
+                }
+                return null;
+            }
+        }
+        
+        function updateContent(thumb) {
+            mainImage.classList.add('switching');
+            productInfo.classList.add('switching');
+            
+            setTimeout(() => {
+                mainImage.src = thumb.dataset.image;
+                document.querySelector('.product-name').textContent = thumb.dataset.name;
+                document.querySelector('.product-description').textContent = thumb.dataset.description;
+                
+                // Update the button with product navigation
+                const orderButton = document.createElement('a');
+                orderButton.href = `product.html?id=${thumb.dataset.productId}`;
+                orderButton.className = 'get-started';
+                orderButton.textContent = 'ORDER NOW';
+                const existingButton = document.querySelector('.get-started');
+                if (existingButton) {
+                    existingButton.replaceWith(orderButton);
+                }
+
+                void mainImage.offsetWidth;
+                mainImage.classList.remove('switching');
+                productInfo.classList.remove('switching');
+            }, 300);
+        }
+
+        function updateCategory(category) {
+            if (!menuData) return;
+            
+            currentCategory = category;
+            const categoryData = menuData.categories.find(cat => cat.id === category);
+            if (!categoryData) return;
+            
+            const products = categoryData.products;
+            
+            // Update thumbnails with wrapper
+            thumbnailContainer.innerHTML = products.map((product, index) => `
+                <div class="thumbnail-wrapper ${index === 0 ? 'active' : ''}">
+                    <img src="${product.image_url}" 
+                         alt="${product.name}" 
+                         class="thumbnail" 
+                         data-name="${product.name}" 
+                         data-description="${product.description}" 
+                         data-image="${product.image_url}"
+                         data-product-id="${product.id}"
+                         onerror="this.src='https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=150&q=80'">
+                </div>
+            `).join('');
+
+            // Update click events
+            document.querySelectorAll('.thumbnail-wrapper').forEach(wrapper => {
+                wrapper.addEventListener('click', () => {
+                    document.querySelectorAll('.thumbnail-wrapper').forEach(w => w.classList.remove('active'));
+                    wrapper.classList.add('active');
+                    updateContent(wrapper.querySelector('.thumbnail'));
+                });
+            });
+
+            // Update initial content
+            const firstProduct = products[0];
+            mainImage.src = firstProduct.image_url;
+            document.querySelector('.product-name').textContent = firstProduct.name;
+            document.querySelector('.product-description').textContent = firstProduct.description;
+            
+            // Update order button
+            const orderButton = document.createElement('a');
+            orderButton.href = `product.html?id=${firstProduct.id}`;
+            orderButton.className = 'get-started';
+            orderButton.textContent = 'ORDER NOW';
+            const existingButton = document.querySelector('.get-started');
+            if (existingButton) {
+                existingButton.replaceWith(orderButton);
+            }
+        }
+
+        // Initialize with pizza category
+        loadMenuData().then(() => {
+            updateCategory('pizza');
+        });
+
+        // Update category click handlers
+        document.querySelectorAll('.category-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const category = link.querySelector('span').textContent.toLowerCase();
+                if (category !== currentCategory) {
+                    document.querySelectorAll('.category-link').forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                    
+                    const island = document.querySelector('.dynamic-island');
+                    island.style.transform = 'translateX(-50%) scale(1.02)';
+                    setTimeout(() => {
+                        island.style.transform = 'translateX(-50%) scale(1)';
+                    }, 200);
+
+                    updateCategory(category);
+                }
+            });
+        });
+
+        // Update the Gemini response function
+        function updateGeminiResponse(text) {
+            const container = document.querySelector('.gemini-response-container');
+            const responseText = document.querySelector('.gemini-response-text');
+            
+            // Set the text
+            responseText.textContent = text;
+            
+            // Calculate scroll duration based on text length
+            const newDuration = Math.max(text.length * 0.08, 8) + 's';
+            document.documentElement.style.setProperty('--scroll-duration', newDuration);
+            
+            // Reset animation and show container with smooth transition
+            responseText.style.animation = 'none';
+            container.classList.remove('hiding');
+            container.classList.add('visible');
+            responseText.style.transform = 'translateX(15%)';
+            void responseText.offsetHeight; // Force reflow
+            responseText.style.animation = `scrollText ${newDuration} linear`;
+
+            // Generate and play TTS audio
+            generateAndPlayTTS(text);
+            
+            // Hide container after text has scrolled once
+            const durationMs = parseFloat(newDuration) * 1000;
+            setTimeout(() => {
+                container.classList.add('hiding');
+                setTimeout(() => {
+                    responseText.textContent = '';
+                    responseText.style.transform = 'translateX(15%)';
+                    container.classList.remove('visible', 'hiding');
+                }, 500);
+            }, durationMs + 500);
+        }
+
+        // TTS Toggle functionality
+        let useElevenLabs = false;
+        const ttsNotification = document.getElementById('ttsNotification');
+        
+        function showTTSSwitchNotification() {
+            const message = useElevenLabs ? 'Switched to ElevenLabs TTS' : 'Switched to Web Speech TTS';
+            ttsNotification.textContent = message;
+            
+            // Remove any existing classes first
+            ttsNotification.classList.remove('show', 'hide');
+            
+            // Force a reflow to ensure the animation plays again
+            void ttsNotification.offsetWidth;
+            
+            // Add the show class to trigger the animation
+            ttsNotification.classList.add('show');
+            
+            // Hide notification after 2 seconds
+            setTimeout(() => {
+                ttsNotification.classList.remove('show');
+                ttsNotification.classList.add('hide');
+                
+                // Reset after the hide animation
+                setTimeout(() => {
+                    ttsNotification.classList.remove('hide');
+                    ttsNotification.textContent = '';
+                }, 300);
+            }, 2000);
+        }
+
+        // Add keyboard shortcut (Alt+T)
+        document.addEventListener('keydown', (e) => {
+            if (e.altKey && e.key.toLowerCase() === 't') {
+                e.preventDefault();
+                useElevenLabs = !useElevenLabs;
+                showTTSSwitchNotification();
+                // Cancel any ongoing speech when switching
+                window.speechSynthesis.cancel();
+            }
+        });
+
+        // Update the generateAndPlayTTS function
+        async function generateAndPlayTTS(text) {
+            // Cancel any ongoing speech before starting new one
+            window.speechSynthesis.cancel();
+            
+            if (useElevenLabs) {
+                try {
+                    console.log('Sending TTS request for text:', text.substring(0, 50) + '...');
+                    const response = await fetch('http://localhost:3000/api/tts', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ text })
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        console.error('TTS Error:', errorData);
+                        throw new Error(errorData.error || 'TTS request failed');
+                    }
+
+                    const data = await response.json();
+                    console.log('TTS audio received, playing...');
+                    
+                    const audio = new Audio(`data:audio/mpeg;base64,${data.audio}`);
+                    
+                    // Add event listeners for debugging
+                    audio.addEventListener('canplaythrough', () => {
+                        console.log('Audio can play through');
+                    });
+                    
+                    audio.addEventListener('playing', () => {
+                        console.log('Audio is playing');
+                    });
+                    
+                    audio.addEventListener('error', (e) => {
+                        console.error('Audio playback error:', e);
+                        console.error('Audio error details:', audio.error);
+                    });
+
+                    audio.play().catch(error => {
+                        console.error('Error playing audio:', error);
+                    });
+
+                } catch (error) {
+                    console.error('TTS Error:', error.message);
+                }
+            } else {
+                // Use Web Speech API
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 1;
+                utterance.pitch = 1;
+                utterance.volume = 1;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        // Add event listener for Gemini responses
+        window.addEventListener('gemini-response', (event) => {
+            updateGeminiResponse(event.detail.text);
+        });
+    </script>
+</body>
+</html> 

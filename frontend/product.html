@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - AI Menu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #8B5E3C;    /* Dark Coffee */
+            --secondary: #6B4423;  /* Deep Brown */
+            --accent: #A67B5B;     /* Warm Brown */
+            --yellow: #D4B08C;     /* Muted Beige */
+            --dark: #2C1810;       /* Dark Brown */
+            --light: #E8D3C7;      /* Light Beige */
+            --gray: #8B7355;       /* Muted Brown */
+            --hover-brown: #7D4F2E;
+            --beige: #D4B08C;      /* Darker Beige */
+            --text-dark: #2C1810;  /* Dark Brown Text */
+            --bg-beige: #E8D3C7;   /* Darker Background Beige */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-beige);
+            color: var(--text-dark);
+            background-image: url('https://images.unsplash.com/photo-1606787366850-de6330128bfc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-blend-mode: soft-light;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(212, 176, 140, 0.95), rgba(232, 211, 199, 0.9));
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .product-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin: 40px 0;
+            background: rgba(212, 176, 140, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(44, 24, 16, 0.1);
+            border: 1px solid rgba(139, 94, 60, 0.3);
+        }
+
+        .product-image-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            border-radius: 20px;
+            overflow: hidden;
+            background: var(--beige);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .product-image:hover {
+            transform: scale(1.05);
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-name {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+            text-shadow: none;
+            animation: fadeInUp 1s ease;
+            position: relative;
+        }
+
+        .product-name::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--accent);
+            animation: slideIn 1s ease;
+        }
+
+        .product-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease 0.2s backwards;
+        }
+
+        .product-description {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--gray);
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease 0.4s backwards;
+        }
+
+        .product-tags {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease 0.6s backwards;
+        }
+
+        .tag {
+            background: rgba(139, 94, 60, 0.1);
+            border: 1px solid var(--accent);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+        }
+
+        .nutritional-info {
+            background: rgba(139, 94, 60, 0.05);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(139, 94, 60, 0.2);
+            animation: fadeInUp 1s ease 0.8s backwards;
+        }
+
+        .nutritional-info h3 {
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+
+        .nutritional-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .nutrition-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(139, 94, 60, 0.1);
+        }
+
+        .nutrition-item:last-child {
+            border-bottom: none;
+        }
+
+        .order-button {
+            background: var(--secondary);
+            color: var(--light);
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: fadeInUp 1s ease 1s backwards;
+        }
+
+        .order-button:hover {
+            background: var(--hover-brown);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(44, 24, 16, 0.2);
+        }
+
+        .similar-products {
+            margin-top: 60px;
+            background: rgba(212, 176, 140, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(44, 24, 16, 0.1);
+            border: 1px solid rgba(139, 94, 60, 0.3);
+        }
+
+        .similar-products h2 {
+            color: var(--text-dark);
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+
+        .similar-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .similar-card {
+            background: rgba(212, 176, 140, 0.9);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(44, 24, 16, 0.1);
+            border: 1px solid rgba(139, 94, 60, 0.3);
+        }
+
+        .similar-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(44, 24, 16, 0.2);
+        }
+
+        .similar-image-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            background: var(--beige);
+            overflow: hidden;
+        }
+
+        .similar-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .similar-image.loaded {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .similar-image:hover {
+            transform: scale(1.05);
+        }
+
+        .similar-info {
+            padding: 20px;
+        }
+
+        .similar-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+
+        .similar-price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                width: 0;
+            }
+            to {
+                width: 60px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .product-details {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Order Confirmation Popup */
+        .order-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.7);
+            background: rgba(5, 5, 5, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--primary);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+        }
+
+        .order-popup.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .order-popup i {
+            font-size: 60px;
+            color: var(--primary);
+            margin-bottom: 20px;
+            animation: bounce 1s infinite;
+        }
+
+        .order-popup h2 {
+            color: var(--primary);
+            font-size: 24px;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+
+        .order-popup p {
+            color: #CCCCCC;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .order-popup .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .order-popup .progress {
+            width: 0%;
+            height: 100%;
+            background: var(--primary);
+            transition: width 0.3s linear;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="chat-widget.js"></script>
+    <script>
+        // Load product details when page loads
+        async function loadProductDetails() {
+            try {
+                const productId = new URLSearchParams(window.location.search).get('id');
+                if (!productId) {
+                    throw new Error('No product ID found');
+                }
+
+                const response = await fetch(`http://localhost:3000/api/product/${productId}`);
+                if (!response.ok) {
+                    throw new Error('Failed to load product details');
+                }
+
+                const product = await response.json();
+                
+                // Update page content
+                document.title = `${product.name} - AI Menu`;
+                document.querySelector('.product-name').textContent = product.name;
+                document.querySelector('.product-price').textContent = `$${product.price.toFixed(2)}`;
+                document.querySelector('.product-description').textContent = product.description;
+                
+                // Update image
+                const imageContainer = document.querySelector('.product-image-container');
+                const img = document.createElement('img');
+                img.src = product.image_url;
+                img.alt = product.name;
+                img.className = 'product-image';
+                img.onload = () => img.classList.add('loaded');
+                imageContainer.innerHTML = '';
+                imageContainer.appendChild(img);
+                
+                // Update tags
+                const tagsContainer = document.querySelector('.product-tags');
+                tagsContainer.innerHTML = '';
+                if (product.vegetarian) {
+                    tagsContainer.innerHTML += '<span class="tag">Vegetarian</span>';
+                }
+                if (product.spicy_level > 0) {
+                    tagsContainer.innerHTML += `<span class="tag">Spicy Level: ${product.spicy_level}</span>`;
+                }
+                
+                // Update nutritional info
+                const nutritionalGrid = document.querySelector('.nutritional-grid');
+                nutritionalGrid.innerHTML = `
+                    <div class="nutrition-item">
+                        <span>Calories</span>
+                        <span>${product.nutritional_info.calories}</span>
+                    </div>
+                    <div class="nutrition-item">
+                        <span>Protein</span>
+                        <span>${product.nutritional_info.protein}g</span>
+                    </div>
+                    <div class="nutrition-item">
+                        <span>Carbs</span>
+                        <span>${product.nutritional_info.carbs}g</span>
+                    </div>
+                    <div class="nutrition-item">
+                        <span>Fat</span>
+                        <span>${product.nutritional_info.fat}g</span>
+                    </div>
+                `;
+
+                // Load similar products
+                loadSimilarProducts(product.category);
+            } catch (error) {
+                console.error('Error loading product details:', error);
+                showNotification(error.message, 'error');
+            }
+        }
+
+        // Load similar products from the same category
+        async function loadSimilarProducts(category) {
+            try {
+                const response = await fetch('http://localhost:3000/api/menu');
+                if (!response.ok) {
+                    throw new Error('Failed to load menu data');
+                }
+
+                const menuData = await response.json();
+                
+                // Find the category that contains our current product
+                const currentId = new URLSearchParams(window.location.search).get('id');
+                let currentCategory = null;
+                
+                for (const cat of menuData.categories) {
+                    if (cat.products.some(p => p.id === currentId)) {
+                        currentCategory = cat;
+                        break;
+                    }
+                }
+
+                if (!currentCategory) {
+                    console.error('Could not find category for current product');
+                    return;
+                }
+
+                // Get similar products from the same category
+                const similarProducts = currentCategory.products
+                    .filter(p => p.id !== currentId)
+                    .slice(0, 3);
+
+                console.log('Similar products:', similarProducts); // Debug log
+
+                const similarGrid = document.querySelector('.similar-grid');
+                if (similarProducts.length === 0) {
+                    similarGrid.innerHTML = '<p style="color: #666; text-align: center;">No similar products found</p>';
+                    return;
+                }
+
+                similarGrid.innerHTML = similarProducts.map(product => `
+                    <div class="similar-card" onclick="window.location.href='product.html?id=${product.id}'">
+                        <div class="similar-image-container">
+                            <img src="${product.image_url}" alt="${product.name}" class="similar-image" onload="this.classList.add('loaded')">
+                        </div>
+                        <div class="similar-info">
+                            <h3 class="similar-name">${product.name}</h3>
+                            <div class="similar-price">$${product.price.toFixed(2)}</div>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading similar products:', error);
+                const similarGrid = document.querySelector('.similar-grid');
+                similarGrid.innerHTML = '<p style="color: #666; text-align: center;">Error loading similar products</p>';
+            }
+        }
+
+        // Load product details when page loads
+        loadProductDetails();
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="product-details">
+            <div class="product-image-container">
+                <!-- Product image will be inserted here -->
+            </div>
+            <div class="product-info">
+                <h1 class="product-name"></h1>
+                <div class="product-price"></div>
+                <p class="product-description"></p>
+                <div class="product-tags">
+                    <!-- Tags will be inserted here -->
+                </div>
+                <div class="nutritional-info">
+                    <h3>Nutritional Information</h3>
+                    <div class="nutritional-grid">
+                        <!-- Nutritional info will be inserted here -->
+                    </div>
+                </div>
+                <button class="order-button" id="orderButton">Order Now</button>
+            </div>
+        </div>
+
+        <div class="similar-products">
+            <h2>Similar Products</h2>
+            <div class="similar-grid">
+                <!-- Similar products will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay"></div>
+    <div class="order-popup">
+        <i class="fas fa-robot"></i>
+        <h2>Order Confirmed!</h2>
+        <p>Your order is being prepared by our robot chef. Please wait while we process your request.</p>
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+    </div>
+
+    <script>
+        // Order confirmation popup
+        function showOrderConfirmation() {
+            const popup = document.querySelector('.order-popup');
+            const overlay = document.querySelector('.overlay');
+            const progress = document.querySelector('.progress');
+            
+            // Show popup and overlay
+            popup.classList.add('show');
+            overlay.classList.add('show');
+            
+            // Animate progress bar
+            progress.style.width = '100%';
+            
+            // Hide after 3 seconds
+            setTimeout(() => {
+                popup.classList.remove('show');
+                overlay.classList.remove('show');
+                progress.style.width = '0%';
+                
+                // Send order to ESP32
+                sendOrderToESP32();
+            }, 3000);
+        }
+
+        // Send order to ESP32
+        async function sendOrderToESP32() {
+            try {
+                const productId = new URLSearchParams(window.location.search).get('id');
+                if (!productId) {
+                    throw new Error('No product ID found');
+                }
+
+                // Disable the order button and show loading state
+                const orderButton = document.getElementById('orderButton');
+                orderButton.disabled = true;
+                orderButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+
+                // Set a timeout to reset the button after 5 seconds
+                const buttonTimeout = setTimeout(() => {
+                    orderButton.disabled = false;
+                    orderButton.innerHTML = 'Order Now';
+                }, 5000);
+
+                const response = await fetch('http://localhost:3000/api/order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ productId }),
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to process order');
+                }
+
+                // Show success message
+                showNotification('Order placed successfully!', 'success');
+
+            } catch (error) {
+                console.error('Error sending order:', error);
+                showNotification(error.message, 'error');
+            } finally {
+                // Clear the timeout if the API call finished before 5 seconds
+                clearTimeout(buttonTimeout);
+            }
+        }
+
+        // Remove the old event listener and add the new one
+        document.getElementById('orderButton').removeEventListener('click', showOrderConfirmation);
+        document.getElementById('orderButton').addEventListener('click', showOrderConfirmation);
+    </script>
+    <script>
+        // Add notification function
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // Add styles for notification
+            notification.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                padding: 15px 30px;
+                border-radius: 8px;
+                background: ${type === 'success' ? 'rgba(0, 255, 0, 0.2)' : 'rgba(255, 0, 0, 0.2)'};
+                color: white;
+                backdrop-filter: blur(10px);
+                border: 1px solid ${type === 'success' ? 'rgba(0, 255, 0, 0.3)' : 'rgba(255, 0, 0, 0.3)'};
+                z-index: 1000;
+                animation: slideUp 0.3s ease;
+            `;
+            
+            // Remove notification after 3 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideDown 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Add animation keyframes
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideUp {
+                from { transform: translate(-50%, 100%); opacity: 0; }
+                to { transform: translate(-50%, 0); opacity: 1; }
+            }
+            
+            @keyframes slideDown {
+                from { transform: translate(-50%, 0); opacity: 1; }
+                to { transform: translate(-50%, 100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+    <script>
+        // Initialize chat widget when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            ChatWidget.init();
+        });
+    </script>
+</body>
+</html> 

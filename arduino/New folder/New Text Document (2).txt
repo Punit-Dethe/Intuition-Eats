@@ -1,0 +1,83 @@
+// Motor Driver 1 (Handles Motor 1 & 2)
+#define IN1 9   // Motor 1 control
+#define IN2 10  
+#define ENA 5  
+
+#define IN3 11  // Motor 2 control
+#define IN4 12  
+#define ENB 6
+
+// Motor Driver 2 (Handles Motor 3 & 4)
+#define IN5 7   // Motor 3 control
+#define IN6 8  
+#define ENC 3  
+
+#define IN7 4   // Motor 4 control
+#define IN8 2  
+#define END 3  
+
+void setup() {
+  Serial.begin(9600);
+  
+  // Motor Driver 1
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  pinMode(ENA, OUTPUT);
+  pinMode(IN3, OUTPUT);
+  pinMode(IN4, OUTPUT);
+  pinMode(ENB, OUTPUT);
+
+  // Motor Driver 2
+  pinMode(IN5, OUTPUT);
+  pinMode(IN6, OUTPUT);
+  pinMode(ENC, OUTPUT);
+  pinMode(IN7, OUTPUT);
+  pinMode(IN8, OUTPUT);
+  pinMode(END, OUTPUT);
+
+  Serial.println("Arduino Receiver Ready");
+  Serial.println("---------------------");
+}
+
+void loop() {
+  if (Serial.available() > 0) {
+    int code = Serial.parseInt();
+    
+    if (code > 0) {
+      Serial.print("Received code from ESP32: ");
+      Serial.println(code);
+      
+      switch(code) {
+        case 1:
+          Serial.println("Activating Pizza motor (Motor 1)");
+          activateMotor(IN1, IN2, ENA);
+          break;
+        case 2:
+          Serial.println("Activating Burger motor (Motor 2)");
+          activateMotor(IN3, IN4, ENB);
+          break;
+        case 3:
+          Serial.println("Activating Fries motor (Motor 3)");
+          activateMotor(IN5, IN6, ENC);
+          break;
+        case 4:
+          Serial.println("Activating Dessert motor (Motor 4)");
+          activateMotor(IN5, IN6, END);
+          
+          break;
+        default:
+          Serial.println("Unknown code received");
+      }
+    }
+  }
+} 
+
+void activateMotor(int pin1, int pin2, int speedPin) {
+    digitalWrite(pin1, HIGH);
+    digitalWrite(pin2, LOW);
+    analogWrite(speedPin, 250);
+    delay(2000);
+    digitalWrite(pin1, LOW);
+    digitalWrite(pin2, LOW);
+    analogWrite(speedPin, 0);
+}
