@@ -1,5 +1,7 @@
 # AI Menu Project
 
+[Live Demo](https://intuition-eats-gcxf.onrender.com/categories.html)
+
 ## Overview
 
 The AI Menu Project is an interactive digital menu system designed to provide a modern and engaging experience for users in a restaurant or food service setting. It features a web-based frontend for browsing the menu, an AI-powered chatbot (Google Gemini) for assistance and recommendations, and integration with hardware (ESP32/Arduino) to simulate order processing and real-world actions like food preparation.
@@ -43,58 +45,61 @@ The AI Menu Project is an interactive digital menu system designed to provide a 
 -   **Data Format:**
     -   JSON (for menu data and API responses)
 
-## Deployment Instructions
+## Local Development Setup
 
 ### Prerequisites
 - Node.js (v14 or later)
 - npm (comes with Node.js)
-- Render.com account (free tier available)
+- Google Gemini API Key
+- (Optional) ElevenLabs API Key for TTS
 
-### 1. Prepare Your Repository
-1. Create a new GitHub repository
-2. Push your code to the repository
+### Backend Setup
 
-### 2. Deploy to Render.com
-
-#### Backend Deployment
-1. Go to [Render Dashboard](https://dashboard.render.com/)
-2. Click "New" → "Web Service"
-3. Connect your GitHub repository
-4. Configure the backend service:
-   - **Name**: `aimenu-backend`
-   - **Region**: Choose closest to your users
-   - **Branch**: `main` or your main branch
-   - **Build Command**: `cd backend && npm install`
-   - **Start Command**: `cd backend && node server.js`
-   - **Plan**: Free
-5. Add these environment variables:
+1. Navigate to the `backend` directory:
+   ```bash
+   cd backend
    ```
-   NODE_ENV=production
-   PORT=10000
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Create a `.env` file in the backend directory with your API keys:
+   ```
    GEMINI_API_KEY=your_gemini_api_key
    ELEVENLABS_API_KEY=your_elevenlabs_api_key
    ELEVENLABS_VOICE_ID=your_voice_id
    ```
-6. Click "Create Web Service"
 
-#### Frontend Deployment
-1. After backend is deployed, note its URL (e.g., `https://aimenu-backend.onrender.com`)
-2. Go back to Render Dashboard
-3. Click "New" → "Static Site"
-4. Connect your GitHub repository
-5. Configure the frontend:
-   - **Name**: `aimenu-frontend`
-   - **Branch**: `main` or your main branch
-   - **Build Command**: `cd frontend && npm install`
-   - **Publish Directory**: `frontend`
-   - **Environment Variables**:
-     ```
-     REACT_APP_API_URL=https://aimenu-backend.onrender.com
-     ```
-6. Click "Create Static Site"
+4. Start the backend server:
+   ```bash
+   node server.js
+   ```
+   The backend will be available at `http://localhost:10000`
 
-### 3. Update Frontend Configuration
-After both services are deployed, update the `frontend/config.js` file with your backend URL if needed.
+### Frontend Setup
+
+1. In a new terminal, navigate to the `frontend` directory:
+   ```bash
+   cd frontend
+   ```
+
+2. (If using any frontend framework) Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Update the `frontend/config.js` file if needed to point to your local backend:
+   ```javascript
+   const API_URL = 'http://localhost:10000';
+   ```
+
+4. Open `index.html` in your browser or use a local server:
+   ```bash
+   npx http-server -p 3000
+   ```
+   Then open `http://localhost:3000` in your browser.
 
 ## Project Structure
 
