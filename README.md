@@ -1,6 +1,14 @@
-# AI Menu Project
+# 🍽️ AI Menu Project
 
-[Live Demo](https://intuition-eats-gcxf.onrender.com/categories.html)
+<div align="center">
+  <a href="https://intuition-eats-gcxf.onrender.com/categories.html" target="_blank" style="display: inline-block; background: linear-gradient(135deg, #4a90e2, #6a11cb); color: white; padding: 12px 28px; font-size: 18px; font-weight: bold; border-radius: 50px; text-decoration: none; margin: 20px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: all 0.3s ease;">
+    🚀 Try Live Demo
+  </a>
+  
+  <p style="color: #666; font-size: 15px; margin-top: 10px; max-width: 800px; margin-left: auto; margin-right: auto; line-height: 1.5;">
+    <strong>ℹ️ Note:</strong> This application is specifically designed for tablet and desktop interfaces. It's optimized for use in restaurant settings where customers can browse the menu on tablets. The interface is not optimized for mobile phones as it's intended for larger touchscreens typically found in dining establishments.
+  </p>
+</div>
 
 ## Overview
 
