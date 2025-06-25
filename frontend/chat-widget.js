@@ -240,7 +240,7 @@ const ChatWidget = {
 
             .speech-bubble {
                 position: absolute;
-                bottom: 100%;
+                bottom: calc(100% + 30px);
                 right: 0;
                 background: rgba(255, 255, 255, 0.1);
                 backdrop-filter: blur(10px);

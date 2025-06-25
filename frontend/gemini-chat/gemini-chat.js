@@ -279,10 +279,10 @@ const ChefChat = {
 
             .speech-bubble {
                 position: absolute;
-                top: 100%;
+                top: calc(100% + 20px);
                 left: 0;
-                transform: translateY(-10px);
-                margin-top: 10px;
+                transform: translateY(0);
+                margin-top: 15px;
                 padding: 15px 20px;
                 background: rgba(44, 24, 16, 0.85);
                 backdrop-filter: blur(10px);
