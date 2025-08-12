@@ -8,7 +8,7 @@
 
   <br>
   <p style="color: #666; font-size: 15px; margin-top: 10px; max-width: 800px; margin-left: auto; margin-right: auto; line-height: 1.5;">
-    <strong>ℹ️ Note:</strong> This application is specifically designed for tablet and desktop interfaces. It's optimized for use in restaurant settings where customers can browse the menu on tablets. The interface is not optimized for mobile phones as it's intended for larger touchscreens typically found in dining establishments.
+    <strong>ℹ️ Note:</strong> The Backend Can Fail Sometimes best option is to download and run the Project and This application is specifically designed for tablet and desktop interfaces. It's optimized for use in restaurant settings where customers can browse the menu on tablets. The interface is not optimized for mobile phones as it's intended for larger touchscreens typically found in dining establishments.
   </p>
 </div>
 
